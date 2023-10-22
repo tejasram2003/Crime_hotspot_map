@@ -18,9 +18,16 @@ class PastCrimeRecords(models.Model):
     Community_Area = models.FloatField(max_length=10)
     FBI_Code = models.CharField(max_length=10)
     Updated_On = models.CharField(max_length=100)
-    # Location = models.CharField(max_length=1000, null=False)
-    Latitude = models.CharField(max_length=100,null=False)
-    Longitude = models.CharField(max_length=100,null=False)
+    Latitude = models.FloatField(null=False)
+    Longitude = models.FloatField(null=False)
+
+    # @property
+    # def Latitude(self):
+    #     return float(self.Latitude)
+
+    # @property
+    # def Longitude(self):
+    #     return float(self.Longitude)
 
     
 

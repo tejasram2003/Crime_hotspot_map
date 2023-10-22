@@ -120,7 +120,7 @@
         var bounds = L.latLngBounds(southwest, northeast);
 
         // Initialize the map
-        var map = L.map('map').setView([41.85246761380677,-87.65133333166888], 17);
+        var map = L.map('map').setView([41.766796861,-87.623332025], 17);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
@@ -129,7 +129,7 @@
         map.setMaxBounds(bounds);
 
         // Add a draggable marker
-        var marker = L.marker([41.85246761380677,-87.65133333166888], {draggable: true}).addTo(map);
+        var marker = L.marker([41.766796861,-87.623332025], {draggable: true}).addTo(map);
 
         // Update latitude and longitude in real time
         marker.on('drag', function(e) {

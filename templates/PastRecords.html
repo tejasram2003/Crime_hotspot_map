@@ -1,1 +1,116 @@
-<h1>History Dashboard</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Dashboard</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+    .navbar {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        background-color: #333;
+        margin-bottom: 10px;
+    }
+
+    .navbar h1 {
+        margin: 0;
+        padding: 0.9rem;
+        color: #fff;
+        text-align: center;
+      }
+
+    .navbar a {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-left: 77%;
+        margin-right: auto; /* Add this line to push the button to the left */
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .navbar a:last-child {
+        margin-right: 0;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+
+    <h1>History Dashboard</h1>
+    <a href="/" class="button">Home</a>
+
+    </div>
+
+    <h2>Crime Count {{ crime_count }}</h2>
+
+
+    
+
+    {% if required_rows %}
+    <table>
+        <tr>
+            <th>Case Number</th>
+            <th>Date</th>
+            <th>Block</th>
+            <th>IUCR</th>
+            <th>Primary Type</th>
+            <th>Description</th>
+            <th>Location Description</th>
+            <th>Arrest</th>
+            <th>Domestic</th>
+            <th>Beat</th>
+            <th>District</th>
+            <th>Ward</th>
+            <th>Community Area</th>
+            <th>FBI Code</th>
+            <th>Updated On</th>
+        </tr>
+        {% for row in required_rows %}
+        <tr>
+            <td>{{ row.Case_Number }}</td>
+            <td>{{ row.Date }}</td>
+            <td>{{ row.Block }}</td>
+            <td>{{ row.IUCR }}</td>
+            <td>{{ row.Primary_Type }}</td>
+            <td>{{ row.Description }}</td>
+            <td>{{ row.Location_Description }}</td>
+            <td>{{ row.Arrest }}</td>
+            <td>{{ row.Domestic }}</td>
+            <td>{{ row.Beat }}</td>
+            <td>{{ row.District }}</td>
+            <td>{{ row.Ward }}</td>
+            <td>{{ row.Community_Area }}</td>
+            <td>{{ row.FBI_Code }}</td>
+            <td>{{ row.Updated_On }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No records found.</p>
+    {% endif %}
+</body>
+</html>

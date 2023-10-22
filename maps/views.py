@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from random import random
 from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 import random
 from . import predction
 from geopy.geocoders import Nominatim
@@ -11,6 +12,8 @@ from .predict import *
 import random
 from . import models
 from tqdm import tqdm
+import math
+
 # Create your views here.
 def index(request):
     return  render(request, 'index.html')
@@ -60,21 +63,34 @@ def history_dashboard(request,latitude,longitude):
 
     print(f"latitude: {latitude}, longitude: {longitude}")
 
-    required_rows = models.PastCrimeRecords.objects.filter(Location = not None)
+    latitude = float(latitude)
+    longitude = float(longitude)
 
-    print(required_rows)
+    curr_latlong_row = models.PastCrimeRecords.objects.filter(Latitude = latitude, Longitude = longitude).first()
+
+    print(curr_latlong_row)
+
+    if curr_latlong_row:
+        block = curr_latlong_row.Block
+        required_rows = models.PastCrimeRecords.objects.filter(Block = block)
+    else:
+        lat_min = float(latitude) - 0.25/111.32
+        lat_max = float(latitude) + 0.205/111.32
+        lng_min = float(longitude) - (0.250 / (111.32 * math.cos(math.radians(latitude))))
+        lng_max = float(longitude) + (0.250 / (111.32 * math.cos(math.radians(latitude))))
+        query = Q(
+            Latitude__gte=lat_min,
+            Latitude__lte=lat_max,
+            Longitude__gte=lng_min,
+            Longitude__lte=lng_max
+        )
+
+        required_rows = models.PastCrimeRecords.objects.filter(query)
+    print(len(required_rows))
 
 
-    # for i in range(len(dataset['Latitude'])):
-    #     try:
-    #         row = dataset.loc[i,:]
-    #         if row['Latitude'] in range(latitude-0.0002,latitude+0.0002) and row['Longitude'] in range(longitude-0.0002,longitude+0.0002):
-    #             print(row)
-    #     except:
-    #         pass
-    # print(row)
     
-    return render(request,'PastRecords.html')
+    return render(request,'PastRecords.html',{'required_rows':required_rows,'crime_count':len(required_rows)} )
     
 def get_row(latitude,longitude):
     table = models.Crime_records.objects.get(latitude=latitude,longitude=longitude)
